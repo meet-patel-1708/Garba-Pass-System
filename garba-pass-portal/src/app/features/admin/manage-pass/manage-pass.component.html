@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pass Verification - Luxury Edition</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <h2 class="title">🔐 Verify Pass</h2>
+
+            <!-- Messages -->
+            <div id="successMessage" class="message success-message hidden"></div>
+            <div id="errorMessage" class="message error-message hidden"></div>
+
+            <!-- Step 1: Enter Aadhar -->
+            <div id="step1" class="step-container">
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🆔</span>
+                        Enter Aadhar Card Number
+                    </label>
+                    <input 
+                        type="text" 
+                        id="aadharInput"
+                        placeholder="Enter 12-digit Aadhar number"
+                        class="form-input"
+                        maxlength="12"
+                    />
+                </div>
+                
+                <button id="fetchBtn" class="btn btn-primary">
+                    <span>📤 Fetch Pass & Send OTP</span>
+                </button>
+            </div>
+
+            <!-- Pass Details -->
+            <div id="passDetails" class="pass-details hidden">
+                <h4>📄 Pass Details Found</h4>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">👤 Name:</span>
+                        <span class="detail-value" id="passName">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">📱 Mobile:</span>
+                        <span class="detail-value" id="passMobile">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🆔 Aadhar:</span>
+                        <span class="detail-value" id="passAadhar">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">🎫 Pass ID:</span>
+                        <span class="detail-value" id="passId">-</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">💰 Price:</span>
+                        <span class="detail-value" id="passPrice">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div id="step2" class="otp-section hidden">
+                <h4 class="form-label">🔐 Step 2: Verify OTP</h4>
+                
+                <div class="otp-info">
+                    <p>📱 OTP sent to: <strong id="otpSentTo">-</strong></p>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="label-icon">🔢</span>
+                        Enter OTP
+                    </label>
+                    <input 
+                        type="text" 
+                        id="otpInput"
+                        placeholder="Enter 6-digit OTP"
+                        maxlength="6"
+                        class="form-input otp-input"
+                    />
+                    <small class="input-hint">Please enter the 6-digit OTP sent to your mobile number</small>
+                </div>
+                
+                <div class="otp-actions">
+                    <button id="verifyBtn" class="btn btn-primary">
+                        <span>✅ Verify OTP</span>
+                    </button>
+                    
+                    <button id="resendBtn" class="btn btn-secondary">
+                        <span>🔄 Resend</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="step3" class="success-section hidden">
+                <div class="success-icon">✅</div>
+                <h3>Verification Successful!</h3>
+                <p>Pass verified for <strong id="verifiedName">-</strong></p>
+                
+                <div class="verified-details">
+                    <div class="detail-row">
+                        <span>Pass ID:</span>
+                        <strong id="verifiedPassId">-</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Mobile:</span>
+                        <strong id="verifiedMobile">-</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Aadhar:</span>
+                        <strong id="verifiedAadhar">-</strong>
+                    </div>
+                    <div class="detail-row">
+                        <span>Price:</span>
+                        <strong id="verifiedPrice">-</strong>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="allowBtn" class="btn btn-success">
+                        <span>✓ Allow Entry</span>
+                    </button>
+                    <button id="blockBtn" class="btn btn-danger">
+                        <span>✗ Block Pass</span>
+                    </button>
+                    <button id="resetBtn" class="btn btn-secondary">
+                        <span>🔄 Verify Another</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration
+        const mockPassData = {
+            name: "Rajesh Kumar",
+            mobile: "9876543210",
+            aadharCard: "123456789012",
+            passId: "PASS-2024-001",
+            price: "1500"
+        };
+
+        // Utility functions
+        function showMessage(type, text) {
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            if (type === 'success') {
+                successMsg.textContent = text;
+                successMsg.classList.remove('hidden');
+                errorMsg.classList.add('hidden');
+            } else {
+                errorMsg.textContent = text;
+                errorMsg.classList.remove('hidden');
+                successMsg.classList.add('hidden');
+            }
+            
+            setTimeout(() => {
+                successMsg.classList.add('hidden');
+                errorMsg.classList.add('hidden');
+            }, 5000);
+        }
+
+        function maskMobile(mobile) {
+            return mobile ? `******${mobile.slice(-4)}` : '';
+        }
+
+        // Step 1: Fetch Pass Details
+        document.getElementById('fetchBtn').addEventListener('click', function() {
+            const aadhar = document.getElementById('aadharInput').value;
+            
+            if (aadhar.length !== 12) {
+                showMessage('error', 'Please enter a valid 12-digit Aadhar number');
+                return;
+            }
+
+            this.disabled = true;
+            this.innerHTML = '<span class="loading-dots">⏳ Processing</span>';
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Display pass details
+                document.getElementById('passName').textContent = mockPassData.name;
+                document.getElementById('passMobile').textContent = maskMobile(mockPassData.mobile);
+                document.getElementById('passAadhar').textContent = mockPassData.aadharCard;
+                document.getElementById('passId').textContent = mockPassData.passId;
+                document.getElementById('passPrice').textContent = `₹${mockPassData.price}`;
+                
+                document.getElementById('passDetails').classList.remove('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                document.getElementById('otpSentTo').textContent = maskMobile(mockPassData.mobile);
+                document.getElementById('aadharInput').disabled = true;
+                
+                showMessage('success', 'OTP sent successfully!');
+                this.disabled = true;
+            }, 1500);
+        });
+
+        // Step 2: Verify OTP
+        document.getElementById('verifyBtn').addEventListener('click', function() {
+            const otp = document.getElementById('otpInput').value;
+            
+            if (otp.length !== 6) {
+                showMessage('error', 'Please enter a valid 6-digit OTP');
+                return;
+            }
+
+            this.disabled = true;
+            this.innerHTML = '<span class="loading-dots">⏳ Verifying</span>';
+            
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('passDetails').classList.add('hidden');
+                document.getElementById('step3').classList.remove('hidden');
+                
+                document.getElementById('verifiedName').textContent = mockPassData.name;
+                document.getElementById('verifiedPassId').textContent = mockPassData.passId;
+                document.getElementById('verifiedMobile').textContent = `+91 ${mockPassData.mobile}`;
+                document.getElementById('verifiedAadhar').textContent = mockPassData.aadharCard;
+                document.getElementById('verifiedPrice').textContent = `₹${mockPassData.price}`;
+                
+                showMessage('success', 'OTP verified successfully!');
+            }, 1500);
+        });
+
+        // Resend OTP
+        document.getElementById('resendBtn').addEventListener('click', function() {
+            this.disabled = true;
+            showMessage('success', 'OTP resent successfully!');
+            
+            setTimeout(() => {
+                this.disabled = false;
+            }, 30000);
+        });
+
+        // Allow Entry
+        document.getElementById('allowBtn').addEventListener('click', function() {
+            showMessage('success', 'Entry allowed! Pass activated.');
+        });
+
+        // Block Pass
+        document.getElementById('blockBtn').addEventListener('click', function() {
+            showMessage('error', 'Pass has been blocked.');
+        });
+
+        // Reset Form
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            location.reload();
+        });
+
+        // Allow Enter key for inputs
+        document.getElementById('aadharInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('fetchBtn').click();
+            }
+        });
+
+        document.getElementById('otpInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('verifyBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

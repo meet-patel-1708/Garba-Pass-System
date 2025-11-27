@@ -1,0 +1,182 @@
+<div class="dashboard-container">
+  <!-- Mobile Menu Button -->
+  <button class="mobile-menu-btn" (click)="toggleMenu()">
+    <span class="menu-icon">☰</span>
+  </button>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.open]="isMenuOpen">
+    <div class="sidebar-content">
+      <!-- Logo -->
+      <div class="logo-container">
+        <div class="logo-icon">🎭</div>
+        <h2 class="logo">Garba Admin</h2>
+      </div>
+
+      <!-- Menu Items -->
+      <nav class="menu">
+        <a href="/generate-pass" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">🎫</span>
+          <span>Generate Pass</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/manage-pass" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">📋</span>
+          <span>Manage Pass</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/sell-pass" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">💰</span>
+          <span>Sell Pass</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="/block-unblock-pass" routerLinkActive="active" class="menu-item">
+          <span class="menu-icon">🚫</span>
+          <span>Block Pass</span>
+          <span class="arrow">→</span>
+        </a>
+      </nav>
+
+      <!-- User Info -->
+      <div class="user-info">
+        <div class="user-avatar">AD</div>
+        <div class="user-details">
+          <p class="user-name">Admin's Adhar Card Number</p>
+          <p class="user-email">{{ identityCardNumber}}</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Welcome back! Here's your overview</p>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        <span>🚪</span>
+        <span>Logout</span>
+      </button>
+    </header>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading stats...</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <section class="stats-grid" *ngIf="!isLoading">
+      <div class="stats-card total-card" [@fadeInUp]>
+        <div class="card-icon purple">
+          <span>📊</span>
+        </div>
+        <div class="card-content">
+          <h3>Total Passes</h3>
+          <p class="stat-number">{{ animatedStats.total }}</p>
+        </div>
+        <div class="card-glow purple-glow"></div>
+      </div>
+
+      <div class="stats-card sold-card" [@fadeInUp]>
+        <div class="card-icon blue">
+          <span>👥</span>
+        </div>
+        <div class="card-content">
+          <h3>Sold Passes</h3>
+          <p class="stat-number">{{ animatedStats.sold }}</p>
+          
+        </div>
+        <div class="card-glow blue-glow"></div>
+      </div>
+
+      <div class="stats-card active-card" [@fadeInUp]>
+        <div class="card-icon green">
+          <span>✅</span>
+        </div>
+        <div class="card-content">
+          <h3>Active Passes</h3>
+          <p class="stat-number">{{ animatedStats.active }}</p>
+          
+        </div>
+        <div class="card-glow green-glow"></div>
+      </div>
+
+      <div class="stats-card blocked-card" [@fadeInUp]>
+        <div class="card-icon red">
+          <span>🚫</span>
+        </div>
+        <div class="card-content">
+          <h3>Blocked Passes</h3>
+          <p class="stat-number">{{ animatedStats.blocked }}</p>
+          
+        </div>
+        <div class="card-glow red-glow"></div>
+      </div>
+    </section>
+
+    <!-- Additional Info Sections -->
+    <section class="info-grid" *ngIf="!isLoading">
+      <div class="info-card" [@fadeInUp]>
+        <h3 class="info-title">
+          <span>Recent Activity</span>
+          <span class="activity-icon">📈</span>
+        </h3>
+        <div class="activity-list">
+          <div class="activity-item">
+            <div class="activity-dot purple"></div>
+            <span>Pass Generated</span>
+            <span class="activity-time">2 min ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot blue"></div>
+            <span>Pass Sold</span>
+            <span class="activity-time">5 min ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot green"></div>
+            <span>Pass Activated</span>
+            <span class="activity-time">12 min ago</span>
+          </div>
+          <div class="activity-item">
+            <div class="activity-dot orange"></div>
+            <span>Pass Verified</span>
+            <span class="activity-time">18 min ago</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" [@fadeInUp]>
+        <h3 class="info-title">Quick Actions</h3>
+        <div class="quick-actions">
+          <button class="action-btn purple" routerLink="/generate-pass">
+            <span class="action-icon">➕</span>
+            <span>Generate</span>
+          </button>
+          <button class="action-btn blue" routerLink="/sell-pass">
+            <span class="action-icon">💰</span>
+            <span>Sell</span>
+          </button>
+          <button class="action-btn green" routerLink="/manage-pass">
+            <span class="action-icon">⚙️</span>
+            <span>Manage</span>
+          </button>
+          <button class="action-btn orange" routerLink="/reports">
+            <span class="action-icon">📊</span>
+            <span>Report</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Background Effects -->
+  <div class="bg-effects">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+</div>

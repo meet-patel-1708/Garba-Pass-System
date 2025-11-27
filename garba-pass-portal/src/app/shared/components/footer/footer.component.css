@@ -1,0 +1,119 @@
+/* ---------------------- */
+/*   TOP CTA BAR          */
+/* ---------------------- */
+.footer-top-cta {
+    margin-top: 0%;
+    background: #4a4a4a;
+    color: white;
+    padding: 18px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 17px;
+}
+
+.cta-btn {
+    background: #d93636;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.cta-btn:hover {
+    background: #b62828;
+}
+
+
+/* ---------------------- */
+/*   MAIN FOOTER          */
+/* ---------------------- */
+.footer {
+    background: #0a0a0a;
+    color: #fff;
+    padding: 50px 50px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Column sections */
+.footer-section {
+    width: 260px;
+}
+
+/* Brand */
+.brand {
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: lowercase;
+}
+
+.tagline {
+    margin-top: 5px;
+    color: #cccccc;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+/* Column headings */
+.column-title,
+.follow-title {
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Links inside columns */
+.footer-section a {
+    display: block;
+    margin-bottom: 10px;
+    color: #e6e6e6;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.footer-section a:hover {
+    color: white;
+}
+
+/* Social icons row */
+.social-icons {
+    margin-top: 12px;
+    display: flex;
+    gap: 14px;
+}
+
+.social-icons i {
+    font-size: 18px;
+    background: white;
+    color: black;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* ---------------------- */
+/*   DIVIDER & COPYRIGHT  */
+/* ---------------------- */
+.footer-divider {
+    border-color: #444;
+    width: 90%;
+    margin: auto;
+}
+
+.footer-bottom {
+    background: #0a0a0a;
+    text-align: center;
+    padding: 18px;
+    color: #c8c8c8;
+    font-size: 14px;
+}

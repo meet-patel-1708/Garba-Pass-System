@@ -1,0 +1,140 @@
+<app-navbar></app-navbar>
+
+<div class="pass-container">
+  <div class="pass-wrapper">
+    
+    <!-- Header Section -->
+    <div class="header-section">
+      <h2 class="navraat-title">Navraat</h2>
+      <p class="subtitle">Dance is Devotion</p>
+    </div>
+
+    <!-- Time Warning -->
+    <div class="time-warning" *ngIf="!isAllowedTime()">
+      <h2 class="warning-title">⏰ Access Restricted</h2>
+      <p class="warning-text">You can view your pass between <b>7:00 PM to 12:00 AM</b></p>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-state" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading your pass...</p>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMsg && !loading">
+      <span class="error-icon">⚠️</span>
+      <p>{{errorMsg}}</p>
+    </div>
+
+    <!-- Pass Card -->
+    <div class="pass-card" *ngIf="isAllowedTime() && pass && !loading" [class.blur-effect]="blurPass">
+      <div class="card-content">
+        
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="entry-badge">
+            <span>ENTRY PASS</span>
+          </div>
+          <h2 class="card-title">GARBA WORKSHOP</h2>
+        </div>
+
+        <!-- Pass Details -->
+        <div class="pass-details">
+          <div class="details-section">
+            <div class="detail-row">
+              <span class="detail-label">PARTICIPANT NAME</span>
+              <span class="detail-value">{{pass.name}}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">MOBILE</span>
+              <span class="detail-value">{{pass.mobile}}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">AADHAR CARD</span>
+              <span class="detail-value">{{pass.aadharCard}}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">PASS ID</span>
+              <span class="detail-value pass-id">{{pass.passId}}</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">PRICE</span>
+              <span class="detail-value price">₹{{pass.price}}</span>
+            </div>
+          </div>
+
+          <!-- Day Progress Section -->
+          <div class="day-progress">
+            <div class="progress-header">
+              <span class="progress-label">9 DAYS PASS</span>
+              <span class="day-badge" [class.expired]="pass.remainingDays === 0">
+                <span *ngIf="pass.remainingDays > 0">Day {{pass.currentDay}} of {{pass.totalDays}}</span>
+                <span *ngIf="pass.remainingDays === 0" class="expired-text">Pass Expired</span>
+              </span>
+            </div>
+            
+            <!-- Pass Statistics -->
+            <div class="pass-stats">
+              <div class="stat-item">
+                <span class="stat-value">{{pass.usedDays}}</span>
+                <span class="stat-label">Days Used</span>
+              </div>
+              <div class="stat-item highlight">
+                <span class="stat-value">{{pass.remainingDays}}</span>
+                <span class="stat-label">Days Left</span>
+              </div>
+            </div>
+            
+            <!-- Day Indicators Grid -->
+            <div class="days-grid">
+              <div *ngFor="let day of days" 
+                   [class]="'day-box ' + getDayClass(day)"
+                   [title]="getDayStatus(day)">
+                <span class="day-number">{{day}}</span>
+                <span class="day-indicator" *ngIf="getDayClass(day) === 'completed'">✓</span>
+                <span class="day-indicator active-dot" *ngIf="getDayClass(day) === 'active'">●</span>
+              </div>
+            </div>
+            
+            <div class="legend">
+              <span class="legend-item completed">
+                <span class="legend-dot">✓</span> Completed
+              </span>
+              <span class="legend-item active">
+                <span class="legend-dot">●</span> Today
+              </span>
+              <span class="legend-item upcoming">
+                <span class="legend-dot">○</span> Upcoming
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="card-footer">
+          <div class="validity-badge" *ngIf="pass.remainingDays > 0">
+            <p>✨ Valid for Day {{pass.currentDay}} Entry Only! ✨</p>
+          </div>
+          <div class="validity-badge expired" *ngIf="pass.remainingDays === 0">
+            <p>⚠️ This pass has been fully used - No remaining days</p>
+          </div>
+          <div class="location-info">
+            <p class="location-line">📍 Vasudhara Pared Ground</p>
+            <p class="location-line">ONGC, ANKLESHWAR, INDIA</p>
+          </div>
+        </div>
+
+        <!-- Decorative Elements -->
+        <div class="dancer-left">💃</div>
+        <div class="dancer-right">🕺</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

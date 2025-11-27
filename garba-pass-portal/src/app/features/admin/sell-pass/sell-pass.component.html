@@ -1,0 +1,245 @@
+<div class="sell-container">
+  <h2 class="page-title">
+    <span class="icon">💰</span>
+    Sell Pass
+  </h2>
+
+  <!-- Success/Error Messages -->
+  <div class="message-container">
+    <div class="alert success" *ngIf="successMessage">
+      <span class="alert-icon">✅</span>
+      {{ successMessage }}
+    </div>
+    <div class="alert error" *ngIf="errorMessage">
+      <span class="alert-icon">❌</span>
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="search-section glass">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm" 
+        (input)="searchPasses()"
+        placeholder="Search by serial number..."
+        class="search-input"
+      />
+      <button class="clear-btn" *ngIf="searchTerm" (click)="searchTerm=''; searchPasses()">
+        ✕
+      </button>
+    </div>
+    <div class="stats-info">
+      <span class="stat-badge">
+        <strong>{{ filteredPasses.length }}</strong> Available Passes
+      </span>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading passes...</p>
+  </div>
+
+  <!-- Passes Table -->
+  <div class="table-container glass" *ngIf="!isLoading">
+    <div class="table-wrapper">
+      <table class="passes-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Serial Number</th>
+            <th>Price</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pass of filteredPasses; let i = index" class="table-row">
+            <td>{{ i + 1 }}</td>
+            <td class="serial-cell">
+              <span class="serial-badge">{{ pass.serialNumber }}</span>
+            </td>
+            <td class="price-cell">₹{{ pass.price }}</td>
+            <td>
+              <span class="status-badge available">{{ pass.status }}</span>
+            </td>
+            <td class="date-cell">
+              {{ pass.createdAt | date: 'dd MMM yyyy, hh:mm a' }}
+            </td>
+            <td>
+              <button class="btn-sell" (click)="openSellModal(pass)">
+                <span class="btn-icon">💳</span>
+                Sell Pass
+              </button>
+            </td>
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="filteredPasses.length === 0">
+            <td colspan="6" class="empty-state">
+              <div class="empty-content">
+                <span class="empty-icon">📭</span>
+                <p>No available passes found</p>
+                <p class="empty-subtitle">
+                  {{ searchTerm ? 'Try a different search term' : 'Generate some passes to get started' }}
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Sell Modal -->
+  <div class="modal-overlay" *ngIf="showSellModal" (click)="closeSellModal()">
+    <div class="modal-content glass" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>
+          <span class="modal-icon">💳</span>
+          Sell Pass
+        </h3>
+        <button class="close-btn" (click)="closeSellModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Pass Details -->
+        <div class="pass-details">
+          <h4>Pass Details</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">Serial Number:</span>
+              <span class="detail-value serial">{{ selectedPass?.serialNumber }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Price:</span>
+              <span class="detail-value price">₹{{ selectedPass?.price }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Status:</span>
+              <span class="status-badge available">{{ selectedPass?.status }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1: Mobile Number (Before OTP) -->
+        <div class="buyer-form" *ngIf="!otpSent">
+          <h4>📱 Step 1: Enter Buyer's Mobile Number</h4>
+          <div class="form-group">
+            <label for="mobileNumber">
+              <span class="label-icon">📞</span>
+              Mobile Number
+            </label>
+            <input 
+              type="tel" 
+              id="mobileNumber"
+              [(ngModel)]="mobileNumber"
+              placeholder="Enter 10-digit mobile number"
+              maxlength="10"
+              class="form-input"
+              [disabled]="otpSent"
+            />
+            <small class="input-hint">We'll send an OTP to verify the buyer</small>
+          </div>
+          <button 
+            class="btn-send-otp" 
+            (click)="sendOtp()" 
+            [disabled]="isSendingOtp || mobileNumber.length !== 10"
+          >
+            <span *ngIf="!isSendingOtp">📤 Send OTP</span>
+            <span *ngIf="isSendingOtp">
+              <span class="loading-dots">⏳ Sending</span>
+            </span>
+          </button>
+        </div>
+
+        <!-- Step 2: OTP Verification (After OTP Sent) -->
+        <div class="buyer-form" *ngIf="otpSent && !otpVerifed">
+          <h4>🔐 Step 2: Verify OTP</h4>
+          <div class="otp-info">
+            <p>📱 OTP sent to: <strong>+91 {{ mobileNumber }}</strong></p>
+          </div>
+          <div class="form-group">
+            <label for="otpInput">
+              <span class="label-icon">🔢</span>
+              Enter OTP
+            </label>
+            <input 
+              type="text" 
+              id="otpInput"
+              [(ngModel)]="enteredOtp"
+              placeholder="Enter 6-digit OTP"
+              maxlength="6"
+              class="form-input otp-input"
+            />
+            <small class="input-hint">Please enter the 6-digit OTP sent to your mobile number</small>
+          </div>
+          <div class="otp-actions">
+            <button 
+              class="btn-verify" 
+              (click)="verifyOtp()" 
+              [disabled]="isVerifyOtp || enteredOtp.length !== 6"
+            >
+              <span *ngIf="!isVerifyOtp">✅ Verify OTP</span>
+              <span *ngIf="isVerifyOtp">
+                <span class="loading-dots">⏳ Verifying</span>
+              </span>
+            </button>
+            <button class="btn-resend" (click)="resendOtp()" [disabled]="isSendingOtp">
+              🔄 Resend OTP
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Aadhar & Payment (After OTP Verified) -->
+        <div class="buyer-form" *ngIf="otpVerifed">
+          <div class="success-badge">
+            ✅ Mobile Number Verified Successfully!
+          </div>
+          <h4>🪪 Step 3: Enter Buyer's Aadhar</h4>
+          <div class="form-group">
+            <label for="buyerAdhar">
+              <span class="label-icon">🆔</span>
+              Buyer's Aadhar Card Number
+            </label>
+            <input 
+              type="text" 
+              id="buyerAdhar"
+              [(ngModel)]="buyerAdharCard"
+              placeholder="Enter 12-digit Aadhar number"
+              maxlength="12"
+              class="form-input"
+            />
+            <small class="input-hint">Enter the buyer's 12-digit Aadhar card number</small>
+          </div>
+        </div>
+
+        <!-- Error Message in Modal -->
+        <div class="alert error" *ngIf="errorMessage && showSellModal">
+          <span class="alert-icon">❌</span>
+          {{ errorMessage }}
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeSellModal()">Cancel</button>
+        <button 
+          class="btn-confirm" 
+          (click)="proceesToPayment()" 
+          [disabled]="!otpVerifed || isLoading || buyerAdharCard.length !== 12"
+          *ngIf="otpVerifed"
+        >
+          <span *ngIf="!isLoading">💰 Proceed to Payment</span>
+          <span *ngIf="isLoading">
+            <span class="loading-dots">⏳ Processing</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

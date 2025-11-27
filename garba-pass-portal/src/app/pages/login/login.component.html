@@ -1,0 +1,73 @@
+<!-- login.component.html -->
+<div class="login-wrapper">
+  
+  <!-- Floating Om Symbol -->
+  
+  
+  <!-- Decorative Diyas -->
+  <div class="diya diya-1">🪔</div>
+  <div class="diya diya-2">🪔</div>
+  <div class="diya diya-3">🪔</div>
+  <div class="diya diya-4">🪔</div>
+
+  <!-- Login Card -->
+  <div class="glass-card animate-fade-in">
+    
+    <!-- Logo/Icon -->
+    <div class="logo-circle">
+      <div class="floating-om">ॐ</div>
+    </div>
+
+    <h2 class="title">✨ Garba Pass Portal ✨</h2>
+    <p class="subtitle">🙏 Sign in to continue your journey 🙏</p>
+
+    <form (ngSubmit)="onLogin()" #form="ngForm">
+      
+      <!-- Mobile Number Input -->
+      <div class="input-group">
+        <span class="icon">📱</span>
+        <input 
+          type="tel" 
+          name="mobileNumber" 
+          id="mobileNumber" 
+          [(ngModel)]="mobileNumber"  
+          pattern="[0-9]{10}" 
+          maxlength="10"
+          required 
+          placeholder="Mobile Number (10 Digits)">
+      </div>
+
+      <!-- Aadhar Number Input -->
+      <div class="input-group">
+        <span class="icon">🆔</span>
+        <input 
+          type="text" 
+          name="identityCardNumber" 
+          id="identityCardNumber" 
+          [(ngModel)]="identityCardNumber" 
+          pattern="[0-9]{12}"
+          maxlength="12"
+          required 
+          placeholder="Aadhar Card Number (12 digits)">
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMsg" class="error-message">
+        ❌ {{errorMsg}}
+      </div>
+
+      <!-- Login Button -->
+      <button class="btn" type="submit" [disabled]="form.invalid || isLoading">
+        <span *ngIf="!isLoading"> Login Now </span>
+        <span *ngIf="isLoading">⏳ Logging in...</span>
+      </button>
+
+      <!-- Register Link -->
+      <div class="register-link">
+        <p>New to Garba Pass? 🎪</p>
+        <a routerLink="/register-pass">Create Account Here ✨</a>
+      </div>
+
+    </form>
+  </div>
+</div>

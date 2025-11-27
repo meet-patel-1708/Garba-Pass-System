@@ -1,0 +1,158 @@
+<div class="main-wrapper">
+
+  <!-- Floating Om Animation -->
+  <div class="floating-om">ॐ</div>
+
+  <!-- Decorative Diyas -->
+  <div class="diya diya-1">🪔</div>
+  <div class="diya diya-2">🪔</div>
+  <div class="diya diya-3">🪔</div>
+  <div class="diya diya-4">🪔</div>
+
+  <div class="form-container">
+
+    <!-- Left side image -->
+    <div class="side-image">
+      <img src="images/dd.png" alt="spiritual garba image">
+      <div class="image-overlay">
+        <p class="overlay-text">🎊 Join the Divine Celebration 🎊</p>
+      </div>
+    </div>
+
+    <!-- Right side form -->
+    <div class="spiritual-card animate-slide-up">
+
+      <h2 class="spiritual-title">✨ Create Account ✨</h2>
+      <p class="subtitle">🙏 Fill the divine details to continue your journey 🙏</p>
+
+      <form #regForm="ngForm" (ngSubmit)="register(regForm)">
+
+        <div class="input-group">
+          <label>📛 Name</label>
+          <input 
+            type="text" 
+            name="name" 
+            placeholder="Enter your full name"
+            [(ngModel)]="user.fullName" 
+            required>
+        </div>
+
+        <div class="input-group">
+          <label>📱 Mobile Number</label>
+          <input 
+            type="text" 
+            name="phone" 
+            placeholder="10 digit mobile number"
+            minlength="10" 
+            maxlength="10" 
+            [(ngModel)]="user.phone" 
+            required>
+        </div>
+
+        <div class="input-group">
+          <label>🆔 Aadhar Number</label>
+          <input 
+            type="text" 
+            name="AdharCardNumber" 
+            placeholder="12 digit Aadhar number"
+            minlength="12" 
+            maxlength="12" 
+            [(ngModel)]="user.identityCardNumber" 
+            required>
+        </div>
+
+        <div class="input-group">
+          <label>📸 Photo</label>
+          <input 
+            type="file" 
+            name="photo" 
+            accept="image/*"
+            required>
+        </div>
+
+        <div class="input-group">
+          <label>👤 Role</label>
+          <select name="role" [(ngModel)]="user.role" required>
+            <option value="">Select Your Role</option>
+            <option value="USER">🎭 User</option>
+            <option value="ADMIN">👑 Admin</option>
+            <option value="ORGANIZER">🎪 Organizer</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>🔐 Password</label>
+          <input 
+            type="password" 
+            name="Password" 
+            placeholder="Create a strong password"
+            [(ngModel)]="user.password" 
+            required>
+        </div>
+
+        <div class="input-group">
+          <label>✅ Confirm Password</label>
+          <input 
+            type="password" 
+            name="ConfirmPassword" 
+            placeholder="Re-enter your password"
+            [(ngModel)]="user.confirmPassword" 
+            required>
+        </div>
+
+        <button class="spiritual-btn" type="submit">
+          🎊 Register Now 🎊
+        </button>
+
+        <p class="success" *ngIf="successMessage">✅ {{successMessage}}</p>
+        <p class="error" *ngIf="errorMessage">❌ {{errorMessage}}</p>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Additional CSS for new elements - ADD THIS TO YOUR CSS FILE -->
+<style>
+  .diya {
+    position: absolute;
+    font-size: 40px;
+    animation: diyaFloat 4s ease-in-out infinite;
+    pointer-events: none;
+    filter: drop-shadow(0 0 15px rgba(255, 183, 77, 0.8));
+  }
+
+  .diya-1 { top: 15%; left: 5%; animation-delay: 0s; }
+  .diya-2 { top: 20%; right: 8%; animation-delay: 1s; }
+  .diya-3 { bottom: 20%; left: 8%; animation-delay: 2s; }
+  .diya-4 { bottom: 15%; right: 5%; animation-delay: 3s; }
+
+  @keyframes diyaFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+    50% { transform: translateY(-20px) scale(1.1); opacity: 1; }
+  }
+
+  .image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(234, 88, 12, 0.9), transparent);
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .side-image:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-text {
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+</style>

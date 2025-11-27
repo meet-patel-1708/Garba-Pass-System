@@ -1,0 +1,29 @@
+<div class="container">
+    <h2 class="title">Block / Unblock Pass</h2>
+    <div class="search-box">
+        <input type="text" placeholder="Enter Serial Number....">
+        <button class="search-btn">Search</button>
+    </div>
+    <div class="result-card" *ngIf="pass">
+        <h3>Pass Details</h3>
+        <div class="row">
+            <p><strong>Name:</strong>{{pass.name}}</p>
+            <p><strong>Serial Number:</strong>{{pass.serialNumber}}</p>
+        </div>
+        <div class="row">
+            <p><strong>Mobile:</strong>+91 {{pass.mobile}}</p>
+            <p><strong>status:</strong>
+                <span class="status active" *ngIf="!pass.blocked">Active</span>
+                <span class="status blocked" *ngIf="pass.blocked">Blocked</span>
+            </p>
+        </div>
+        <div class="btn-group">
+            <button class="block-btn" (click)="blockPass()" *ngIf="!pass.blocked">
+                Block Pass
+            </button>
+            <button class="unblock-btn" (click)="unblockPass()" *ngIf="pass.blocked">
+                Unblock Pass
+            </button>
+        </div>
+    </div>
+</div>

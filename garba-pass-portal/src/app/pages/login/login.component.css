@@ -1,0 +1,451 @@
+/* login.component.css */
+
+/* ==================== BACKGROUND ==================== */
+.login-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 107, 0, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 183, 77, 0.3) 0%, transparent 50%),
+    linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #fdc830 50%, #f37335 75%, #ff6b35 100%);
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==================== DECORATIVE ELEMENTS ==================== */
+.login-wrapper::before {
+  content: '🎪';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  font-size: 60px;
+  opacity: 0.4;
+  animation: float 8s ease-in-out infinite;
+}
+
+.login-wrapper::after {
+  content: '🎭';
+  position: absolute;
+  bottom: 15%;
+  right: 15%;
+  font-size: 60px;
+  opacity: 0.4;
+  animation: float 8s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* ==================== FLOATING OM ==================== */
+.floating-om {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 70px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff6b35, #fdc830, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: omPulse 3s infinite ease-in-out, omRotate 20s linear infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 0 20px rgba(255, 220, 170, 0.6));
+  z-index: 1;
+}
+
+@keyframes omPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+}
+
+@keyframes omRotate {
+  from { filter: hue-rotate(0deg); }
+  to { filter: hue-rotate(360deg); }
+}
+
+/* ==================== DIYAS ==================== */
+.diya {
+  position: absolute;
+  font-size: 40px;
+  animation: diyaFloat 4s ease-in-out infinite;
+  pointer-events: none;
+  filter: drop-shadow(0 0 15px rgba(255, 183, 77, 0.8));
+}
+
+.diya-1 { top: 15%; left: 8%; animation-delay: 0s; }
+.diya-2 { top: 20%; right: 12%; animation-delay: 1s; }
+.diya-3 { bottom: 20%; left: 12%; animation-delay: 2s; }
+.diya-4 { bottom: 15%; right: 8%; animation-delay: 3s; }
+
+@keyframes diyaFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.6; }
+  50% { transform: translateY(-20px) scale(1.1); opacity: 1; }
+}
+
+/* ==================== GLASSMORPHISM CARD ==================== */
+.glass-card {
+  width: 420px;
+  max-width: 95%;
+  padding: 40px;
+  border-radius: 25px;
+  
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 15px 50px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.2),
+    0 0 50px rgba(255, 183, 77, 0.3);
+  
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  animation: containerGlow 4s ease-in-out infinite;
+}
+
+@keyframes containerGlow {
+  0%, 100% { 
+    box-shadow: 
+      0 15px 50px rgba(0, 0, 0, 0.3), 
+      inset 0 0 30px rgba(255, 255, 255, 0.2), 
+      0 0 50px rgba(255, 183, 77, 0.3); 
+  }
+  50% { 
+    box-shadow: 
+      0 15px 60px rgba(0, 0, 0, 0.4), 
+      inset 0 0 40px rgba(255, 255, 255, 0.3), 
+      0 0 70px rgba(255, 183, 77, 0.5); 
+  }
+}
+
+/* ==================== FADE IN ANIMATION ==================== */
+.animate-fade-in {
+  animation: fadeInUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* ==================== LOGO CIRCLE ==================== */
+.logo-circle {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, #b35202, #bf5204);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(249, 115, 22, 0.5);
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.logo-icon {
+  font-size: 40px;
+  animation: iconSpin 10s linear infinite;
+}
+
+@keyframes iconSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==================== TITLE ==================== */
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #c2410c, #ea580c, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  animation: titlePulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(251, 146, 60, 0.5));
+}
+
+@keyframes titlePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.subtitle {
+  color: #7c2d12;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  animation: fadeIn 2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==================== INPUT GROUPS ==================== */
+.input-group {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 14px 16px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: inputSlide 0.8s ease backwards;
+}
+
+.input-group:nth-of-type(1) { animation-delay: 0.2s; }
+.input-group:nth-of-type(2) { animation-delay: 0.3s; }
+
+@keyframes inputSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.input-group:hover {
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(251, 146, 60, 0.5);
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.2);
+}
+
+.input-group:focus-within {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: #fb923c;
+  box-shadow: 
+    0 0 0 4px rgba(251, 146, 60, 0.2),
+    0 8px 20px rgba(251, 146, 60, 0.3);
+  transform: translateY(-2px);
+}
+
+.icon {
+  font-size: 22px;
+  margin-right: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.input-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: #7c2d12;
+}
+
+.input-group input::placeholder {
+  color: rgba(124, 45, 18, 0.6);
+  font-weight: 500;
+}
+
+/* ==================== BUTTON ==================== */
+.btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 10px;
+  
+  background: linear-gradient(135deg, #c2410c, #ea580c, #fb923c);
+  background-size: 200% 200%;
+  border: none;
+  border-radius: 14px;
+  
+  font-size: 17px;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  cursor: pointer;
+  box-shadow: 
+    0 8px 25px rgba(234, 88, 12, 0.5),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.2);
+  
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  overflow: hidden;
+  animation: buttonSlide 1s ease 0.5s backwards;
+}
+
+@keyframes buttonSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 35px rgba(234, 88, 12, 0.7),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.3);
+  background-position: right center;
+}
+
+.btn:active {
+  transform: translateY(-2px);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==================== ERROR MESSAGE ==================== */
+.error-message {
+  margin-bottom: 15px;
+  padding: 12px;
+  background: rgba(252, 165, 165, 0.9);
+  color: #991b1b;
+  border: 2px solid #fca5a5;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: errorShake 0.5s ease;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+/* ==================== REGISTER LINK ==================== */
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  animation: fadeIn 1s ease 0.7s backwards;
+}
+
+.register-link p {
+  color: #7c2d12;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.register-link a {
+  display: inline-block;
+  color: #c2410c;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  padding: 8px 16px;
+  background: rgba(246, 233, 222, 0.2);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(251, 146, 60, 0.3);
+}
+
+.register-link a:hover {
+  background: rgba(54, 26, 3, 0.35);
+  border-color: #f9f5f2;
+  color: #f9f5f2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(251, 146, 60, 0.3);
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media screen and (max-width: 480px) {
+  .glass-card {
+    padding: 30px 25px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .floating-om {
+    font-size: 50px;
+    top: 30px;
+  }
+
+  .diya {
+    font-size: 30px;
+  }
+
+  .login-wrapper::before,
+  .login-wrapper::after {
+    font-size: 40px;
+  }
+
+  .logo-circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .logo-icon {
+    font-size: 35px;
+  }
+}

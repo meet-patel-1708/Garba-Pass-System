@@ -1,0 +1,71 @@
+<!-- navbar.component.html -->
+<nav class="navbar" [class.scrolled]="isScrolled">
+  <div class="navbar-container">
+    
+    <!-- Logo -->
+    <div class="logo-wrapper">
+      <div class="logo-icon">
+        <img src="images/logo.png" style="width: 80px;border-radius: 50%;margin-top:-5px;margin-left: -15px;"  alt="">
+      </div>
+      <span class="logo-text">Dandiya Desk</span>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <ul class="nav-links">
+      <li *ngFor="let link of navLinks">
+        <a 
+          [routerLink]="link.href" 
+          [class.active]="activeLink === link.id"
+          (click)="setActiveLink(link.id)"
+        >
+          {{ link.label }}
+        </a>
+      </li>
+    </ul>
+
+    <!-- Login Button -->
+    <button class="login-btn">
+      <span>Logout</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+      </svg>
+    </button>
+
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" (click)="toggleMobileMenu()">
+      <span class="menu-icon" *ngIf="!isMobileMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </span>
+      <svg *ngIf="isMobileMenuOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="isMobileMenuOpen">
+    <div class="mobile-menu-content">
+      <a 
+        *ngFor="let link of navLinks"
+        [routerLink]="link.href"
+        [class.active]="activeLink === link.id"
+        (click)="setActiveLink(link.id); toggleMobileMenu()"
+        class="mobile-link"
+      >
+        {{ link.label }}
+      </a>
+      <button class="mobile-login-btn">Login</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Demo Content -->
+<div class="demo-content">
+  <div class="hero-section">
+    <h1 class="hero-title">Welcome to Dandiya Desk</h1>
+    <p class="hero-subtitle">Experience the festival like never before</p>
+  </div>  
+  <div class="spacer"></div>
+</div>

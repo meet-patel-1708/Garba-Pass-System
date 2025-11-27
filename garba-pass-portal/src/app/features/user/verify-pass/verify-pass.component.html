@@ -1,0 +1,46 @@
+<div class="container">
+    <h2 class="title">Garba Pass Verification</h2>
+
+    <!-- STEP 1: ENTER SERIAL NUMBER -->
+    <div class="glass" *ngIf="!pass">
+        <label>Enter Serial Number</label>
+        <input 
+            type="text" 
+            [(ngModel)]="serialNumber" 
+            placeholder="Enter Serial Number"
+            (keyup.enter)="fetchPass()"
+        >
+        <button class="btn" (click)="fetchPass()">Fetch Details</button>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+
+    <!-- STEP 2: FETCHED PASS DETAILS + SEND OTP -->
+    <div class="glass details-box" *ngIf="pass && !otpSent">
+        <h3>Pass Details</h3>
+
+        <p><b>Pass ID:</b> {{ pass.passId }}</p>
+        <p><b>Status:</b> {{ pass.status }}</p>
+        <p><b>Mobile:</b> {{ pass.mobile }}</p>
+
+        <button class="btn" (click)="sendOtp()">Send OTP to User</button>
+
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+
+    <!-- STEP 3: OTP BOX -->
+    <div class="glass otp-box" *ngIf="otpSent">
+        <label>Enter OTP sent to user</label>
+
+        <input 
+            type="text" 
+            [(ngModel)]="otp"
+            maxlength="6"
+            placeholder="Enter 6-digit OTP"
+        >
+
+        <button class="btn" (click)="verifyOtp()">Verify OTP</button>
+
+        <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    </div>
+</div>
